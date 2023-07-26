@@ -85,7 +85,7 @@
           };
   
           try {
-            const response = await fetch('http://guillermobell.pythonanywhere.com/add_data', {
+            const response = await fetch('https://guillermobell.pythonanywhere.com/add_data', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
@@ -124,7 +124,7 @@
         // Function to load initial list of records and update it periodically
         const loadRecords = async () => {
           try {
-            const response = await fetch('http://guillermobell.pythonanywhere.com/get_data');
+            const response = await fetch('https://guillermobell.pythonanywhere.com/get_data');
             const data = await response.json();
   
             listItems.innerHTML = '';
