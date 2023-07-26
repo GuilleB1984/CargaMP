@@ -1,0 +1,159 @@
+
+  <!-- 'http://guillermobell.pythonanywhere.com/add_data' -->
+
+  <!DOCTYPE html>
+  <html>
+  <head>
+    <title>Carga de Datos de Producción</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <div class="container">
+      <h1>Cargar Datos de Producción</h1>
+      <form id="productionForm">
+        <div class="form-group">
+          <label for="startHour">Hora inicio:</label>
+          <div class="time-input">
+            <input type="number" id="startHour" name="startHour" required>
+            <span class="time-separator">:</span>
+            <input type="number" id="startMinute" name="startMinute" required>
+          </div>
+        </div>
+  
+        <div class="form-group">
+          <label for="endHour">Hora fin:</label>
+          <div class="time-input">
+            <input type="number" id="endHour" name="endHour" required>
+            <span class="time-separator">:</span>
+            <input type="number" id="endMinute" name="endMinute" required>
+          </div>
+        </div>
+  
+        <div class="form-group">
+          <label for="event">Evento:</label>
+          <input type="text" id="event" name="event" required>
+        </div>
+  
+        <div class="form-group">
+          <label for="quantity">Cantidad:</label>
+          <input type="number" id="quantity" name="quantity" required>
+        </div>
+  
+        <input type="hidden" id="timestamp" name="timestamp">
+        <input type="submit" value="Cargar">
+      </form>
+  
+      <div id="productionList">
+        <h2>Listado de Registros</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Hora Registro</th>
+              <th>Hora Inicio</th>
+              <th>Hora Fin</th>
+              <th>Evento</th>
+              <th>Cantidad</th>
+            </tr>
+          </thead>
+          <tbody id="listItems">
+            <!-- Aquí se mostrarán los registros cargados -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const productionForm = document.getElementById('productionForm');
+        const listItems = document.getElementById('listItems');
+        const timestampField = document.getElementById('timestamp');
+  
+        // Function to handle form submission
+        productionForm.addEventListener('submit', async (event) => {
+          event.preventDefault();
+          const formData = new FormData(productionForm);
+  
+          const data = {
+            startHour: formData.get('startHour'),
+            startMinute: formData.get('startMinute'),
+            endHour: formData.get('endHour'),
+            endMinute: formData.get('endMinute'),
+            event: formData.get('event'),
+            quantity: formData.get('quantity'),
+          };
+  
+          try {
+            const response = await fetch('http://guillermobell.pythonanywhere.com/add_data', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(data),
+            });
+  
+            if (!response.ok) {
+              throw new Error('Network response was not ok.');
+            }
+  
+            // Show success message
+            showMessage('Registro cargado exitosamente.', 'success');
+            loadRecords(); // Reload the records after adding new data
+            productionForm.reset();
+          } catch (error) {
+            // Show error message
+            showMessage('Hubo un error al cargar el registro.', 'error');
+            console.error('Error:', error);
+          }
+        });
+  
+        // Function to show notification message
+        const showMessage = (message, type) => {
+          const notification = document.createElement('div');
+          notification.textContent = message;
+          notification.classList.add('notification', type);
+          document.body.appendChild(notification);
+  
+          // Remove notification after a few seconds
+          setTimeout(() => {
+            notification.remove();
+          }, 5000);
+        };
+  
+        // Function to load initial list of records and update it periodically
+        const loadRecords = async () => {
+          try {
+            const response = await fetch('http://guillermobell.pythonanywhere.com/get_data');
+            const data = await response.json();
+  
+            listItems.innerHTML = '';
+            data.forEach(item => {
+              const newRow = document.createElement('tr');
+              newRow.innerHTML = `
+                <td>${item.timestamp}</td>
+                <td>${item.startHour}:${item.startMinute}</td>
+                <td>${item.endHour}:${item.endMinute}</td>
+                <td>${item.event}</td>
+                <td>${item.quantity}</td>
+              `;
+              listItems.appendChild(newRow);
+            });
+          } catch (error) {
+            console.error('Error:', error);
+          }
+        };
+  
+        // Load initial records on page load
+        loadRecords();
+  
+        // Function to periodically update the records
+        const updateRecords = () => {
+          loadRecords();
+          setTimeout(updateRecords, 5000); // Update every 5 seconds
+        };
+  
+        updateRecords();
+      });
+    </script>
+  </body>
+  </html>
+  
