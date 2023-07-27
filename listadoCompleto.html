@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Listado Completo de Producción</title>
+  <link rel="stylesheet" href="stylesListado.css">
+  <style>
+    /* Estilos de la tabla */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      white-space: nowrap; /* Evitar el salto de línea de los datos en la tabla */
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: center;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+
+    /* Estilos del contenedor con desplazamiento */
+    .table-container {
+      overflow-x: auto;
+      max-width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Listado Completo de Producción</h1>
+    <table id="productionList">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Hora Inicio</th>
+          <th>Minuto Inicio</th>
+          <th>Hora Fin</th>
+          <th>Minuto Fin</th>
+          <th>Evento</th>
+          <th>Cantidad</th>
+          <th>Hora de Registro</th>
+          <th>Numero de Caja</th>
+          <th>Operario</th>
+          <th>Articulo</th>
+          <th>Material</th>
+          <th>Color</th>
+          <th>Observaciones</th>
+          <th>Ciclo</th>
+          <th>Bocas</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Los registros se cargarán aquí con JavaScript -->
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    const baseUrl = 'https://guillermobell.pythonanywhere.com'; // Reemplaza con tu URL de PythonAnywhere
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const productionList = document.getElementById('productionList').getElementsByTagName('tbody')[0];
+
+      function loadProductionData() {
+        fetch(`${baseUrl}/get_data`)
+          .then(response => response.json())
+          .then(data => {
+            productionList.innerHTML = '';
+            data.forEach(record => {
+              const row = document.createElement('tr');
+              row.innerHTML = `
+                <td>${record.id}</td>
+                <td>${record.startHour}</td>
+                <td>${record.startMinute}</td>
+                <td>${record.endHour}</td>
+                <td>${record.endMinute}</td>
+                <td>${record.event}</td>
+                <td>${record.quantity}</td>
+                <td>${record.timestamp}</td>
+                <td>${record.boxNumber}</td>
+                <td>${record.operator}</td>
+                <td>${record.article}</td>
+                <td>${record.material}</td>
+                <td>${record.color}</td>
+                <td>${record.observations}</td>
+                <td>${record.cycle}</td>
+                <td>${record.mouths}</td>
+              `;
+              productionList.appendChild(row);
+            });
+          })
+          .catch(error => console.error('Error al cargar los datos:', error));
+      }
+
+      loadProductionData();
+    });
+  </script>
+</body>
+</html>

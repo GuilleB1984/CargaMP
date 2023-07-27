@@ -1,161 +1,196 @@
-
-  <!-- 'http://guillermobell.pythonanywhere.com/add_data' -->
-
-  <!DOCTYPE html>
-  <html>
+<!DOCTYPE html>
+<html>
   <head>
     <title>Carga de Datos de Producción</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <div class="container">
+      <h1>Listado de Últimos 3 Registros Cargados</h1>
+      <table id="lastRecords">
+        <thead>
+          <tr>
+            <th>Inicio</th>
+            <th>Fin</th>
+            <th>Evento</th>
+            <th>Número de Caja</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Los últimos 3 registros se cargarán aquí con JavaScript -->
+        </tbody>
+      </table>
+
       <h1>Cargar Datos de Producción</h1>
       <form id="productionForm">
         <div class="form-group">
           <label for="startHour">Hora inicio:</label>
           <div class="time-input">
-            <input type="number" id="startHour" name="startHour" required>
+            <input
+              type="number"
+              name="startHour"
+              id="startHour"
+              min="0"
+              max="23"
+              placeholder="Hora"
+              required
+            />
             <span class="time-separator">:</span>
-            <input type="number" id="startMinute" name="startMinute" required>
+            <input
+              type="number"
+              name="startMinute"
+              id="startMinute"
+              min="0"
+              max="59"
+              placeholder="Minuto"
+              required
+            />
           </div>
         </div>
-  
         <div class="form-group">
           <label for="endHour">Hora fin:</label>
           <div class="time-input">
-            <input type="number" id="endHour" name="endHour" required>
+            <input
+              type="number"
+              name="endHour"
+              id="endHour"
+              min="0"
+              max="23"
+              placeholder="Hora"
+              required
+            />
             <span class="time-separator">:</span>
-            <input type="number" id="endMinute" name="endMinute" required>
+            <input
+              type="number"
+              name="endMinute"
+              id="endMinute"
+              min="0"
+              max="59"
+              placeholder="Minuto"
+              required
+            />
           </div>
         </div>
-  
         <div class="form-group">
           <label for="event">Evento:</label>
-          <input type="text" id="event" name="event" required>
+          <input type="text" name="event" id="event" required />
         </div>
-  
         <div class="form-group">
           <label for="quantity">Cantidad:</label>
-          <input type="number" id="quantity" name="quantity" required>
+          <input type="number" name="quantity" id="quantity" min="1" required />
         </div>
-  
-        <input type="hidden" id="timestamp" name="timestamp">
-        <input type="submit" value="Cargar">
+        <!-- Nuevos campos -->
+        <div class="form-group">
+          <label for="boxNumber">Número de Caja:</label>
+          <input
+            type="number"
+            name="boxNumber"
+            id="boxNumber"
+            min="1"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="operator">Operario:</label>
+          <input type="text" name="operator" id="operator" required />
+        </div>
+        <div class="form-group">
+          <label for="article">Articulo:</label>
+          <input type="text" name="article" id="article" required />
+        </div>
+        <div class="form-group">
+          <label for="material">Material:</label>
+          <input type="text" name="material" id="material" required />
+        </div>
+        <div class="form-group">
+          <label for="color">Color:</label>
+          <input type="text" name="color" id="color" required />
+        </div>
+        <div class="form-group">
+          <label for="observations">Observaciones:</label>
+          <input type="text" name="observations" id="observations" />
+        </div>
+        <div class="form-group">
+          <label for="cycle">Ciclo:</label>
+          <input type="text" name="cycle" id="cycle" required />
+        </div>
+        <div class="form-group">
+          <label for="mouths">Bocas:</label>
+          <input type="text" name="mouths" id="mouths" required />
+        </div>
+        <input type="submit" value="Cargar" />
       </form>
-  
-      <div id="productionList">
-        <h2>Listado de Registros</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>Hora Registro</th>
-              <th>Hora Inicio</th>
-              <th>Hora Fin</th>
-              <th>Evento</th>
-              <th>Cantidad</th>
-            </tr>
-          </thead>
-          <tbody id="listItems">
-            <!-- Aquí se mostrarán los registros cargados -->
-          </tbody>
-        </table>
-      </div>
+      <div id="message"></div>
     </div>
 
-    <a href="index.html" class="btn">Volver a Index</a>
-  
     <script>
-      document.addEventListener('DOMContentLoaded', () => {
-        const productionForm = document.getElementById('productionForm');
-        const listItems = document.getElementById('listItems');
-        const timestampField = document.getElementById('timestamp');
-  
-        // Function to handle form submission
-        productionForm.addEventListener('submit', async (event) => {
+      const baseUrl = "https://guillermobell.pythonanywhere.com"; // Reemplaza con tu URL de PythonAnywhere
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const form = document.getElementById("productionForm");
+        const messageDiv = document.getElementById("message");
+        const lastRecords = document
+          .getElementById("lastRecords")
+          .getElementsByTagName("tbody")[0];
+
+        form.addEventListener("submit", (event) => {
           event.preventDefault();
-          const formData = new FormData(productionForm);
-  
-          const data = {
-            startHour: formData.get('startHour'),
-            startMinute: formData.get('startMinute'),
-            endHour: formData.get('endHour'),
-            endMinute: formData.get('endMinute'),
-            event: formData.get('event'),
-            quantity: formData.get('quantity'),
-          };
-  
-          try {
-            const response = await fetch('https://guillermobell.pythonanywhere.com/add_data', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify(data),
+
+          const formData = new FormData(form);
+          const data = {};
+          formData.forEach((value, key) => {
+            data[key] = value;
+          });
+
+          fetch(`${baseUrl}/add_data`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data),
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              messageDiv.textContent = data.message;
+              form.reset();
+              loadLastRecords();
+            })
+            .catch((error) => {
+              messageDiv.textContent = "Error al cargar los datos.";
+              console.error("Error al cargar los datos:", error);
             });
-  
-            if (!response.ok) {
-              throw new Error('Network response was not ok.');
-            }
-  
-            // Show success message
-            showMessage('Registro cargado exitosamente.', 'success');
-            loadRecords(); // Reload the records after adding new data
-            productionForm.reset();
-          } catch (error) {
-            // Show error message
-            showMessage('Hubo un error al cargar el registro.', 'error');
-            console.error('Error:', error);
-          }
         });
-  
-        // Function to show notification message
-        const showMessage = (message, type) => {
-          const notification = document.createElement('div');
-          notification.textContent = message;
-          notification.classList.add('notification', type);
-          document.body.appendChild(notification);
-  
-          // Remove notification after a few seconds
-          setTimeout(() => {
-            notification.remove();
-          }, 5000);
-        };
-  
-        // Function to load initial list of records and update it periodically
-        const loadRecords = async () => {
-          try {
-            const response = await fetch('https://guillermobell.pythonanywhere.com/get_data');
-            const data = await response.json();
-  
-            listItems.innerHTML = '';
-            data.forEach(item => {
-              const newRow = document.createElement('tr');
-              newRow.innerHTML = `
-                <td>${item.timestamp}</td>
-                <td>${item.startHour}:${item.startMinute}</td>
-                <td>${item.endHour}:${item.endMinute}</td>
-                <td>${item.event}</td>
-                <td>${item.quantity}</td>
+
+        function loadLastRecords() {
+          fetch(`${baseUrl}/get_data`)
+            .then((response) => response.json())
+            .then((data) => {
+              lastRecords.innerHTML = "";
+              // Ordenar los registros por la hora de carga (timestamp) de forma descendente
+              const sortedData = data.sort(
+                (a, b) => new Date(b.timestamp) - new Date(a.timestamp)
+              );
+              // Tomar solo los últimos 3 registros
+              const lastThreeRecords = sortedData.slice(0, 3);
+
+              lastThreeRecords.forEach((record) => {
+                const row = document.createElement("tr");
+                const inicio = record.startHour + ":" + record.startMinute;
+                const fin = record.endHour + ":" + record.endMinute;
+                row.innerHTML = `
+                <td>${inicio}</td>
+                <td>${fin}</td>
+                <td>${record.event}</td>
+                <td>${record.boxNumber}</td>
               `;
-              listItems.appendChild(newRow);
-            });
-          } catch (error) {
-            console.error('Error:', error);
-          }
-        };
-  
-        // Load initial records on page load
-        loadRecords();
-  
-        // Function to periodically update the records
-        const updateRecords = () => {
-          loadRecords();
-          setTimeout(updateRecords, 5000); // Update every 5 seconds
-        };
-  
-        updateRecords();
+                lastRecords.appendChild(row);
+              });
+            })
+            .catch((error) =>
+              console.error("Error al cargar los datos:", error)
+            );
+        }
+
+        loadLastRecords();
       });
     </script>
   </body>
-  </html>
-  
+</html>
