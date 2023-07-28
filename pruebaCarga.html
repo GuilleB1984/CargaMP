@@ -1,289 +1,129 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Carga de Producción</title>
-  <!--
-    <link rel="stylesheet" href="styles.css" />
+  <head>
+    <title>Carga de Producción</title>
+    <!--
+    
   -->
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      background-color: #f0f0f0;
-    }
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Últimos 3 Registros Cargados</h1>
+      <table id="lastRecords">
+        <thead>
+          <tr>
+            <th>Inicio</th>
+            <th>Fin</th>
+            <th>Evento</th>
+            <th>Nº de Caja</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Los últimos 3 registros se cargarán aquí con JavaScript -->
+        </tbody>
+      </table>
 
-    .container {
-      max-width: 800px;
-      margin: 0 auto;
-      background-color: #fff;
-      padding: 20px;
-      border-radius: 5px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      overflow-x: auto;
-    }
-
-    h1 {
-      text-align: center;
-      margin-bottom: 20px;
-      color: #333;
-      font-size: 48px;
-    }
-
-    form {
-      display: grid;
-      gap: 10px;
-    }
-
-    .form-group {
-      display: grid;
-      gap: 5px;
-      align-items: center;
-      grid-template-columns: 1fr 0.9fr; /* Dos columnas para cada rótulo y campo con reducción del 30% */
-      text-align: right; /* Alineamos el texto a la derecha */
-    }
-
-    label {
-      font-weight: bold;
-      color: #555;
-      font-size: 43.2px; /* 36px + 20% */
-      display: block;
-    }
-
-    .time-input {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .time-input input {
-      padding: 8px;
-      border: 2px solid #555; /* Borde más oscuro */
-      border-radius: 5px;
-      font-size: 36px;
-      width: 70%; /* Reducción del 30% en el ancho */
-      text-align: center;
-      margin: 0; /* Alineamos el input a la izquierda */
-    }
-
-    .time-separator {
-      margin: 0 10px;
-      font-size: 48px;
-    }
-
-    input[type="number"],
-    input[type="text"] {
-      padding: 8px;
-      border: 2px solid #555; /* Borde más oscuro */
-      border-radius: 5px;
-      font-size: 36px;
-      width: 95%; 
-      text-align: center; /* Alineamos el texto a la izquierda */
-      margin: 0; /* Alineamos el input a la izquierda */
-    }
-
-    input[type="hidden"] {
-      display: none;
-    }
-
-    input[type="submit"] {
-      background-color: #007BFF;
-      color: #fff;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 5px;
-      font-size: 44px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-      margin: 0 auto; /* Centramos el botón horizontalmente */
-      display: block;
-    }
-
-    input[type="submit"]:hover {
-      background-color: #0056b3;
-    }
-
-    #productionList {
-      margin-top: 20px;
-      font-size: 28.8px; /* 36px - 20% */
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 20px;
-    }
-
-    thead {
-      background-color: #007BFF;
-      color: #fff;
-    }
-
-    th,
-    td {
-      padding: 10px;
-      text-align: center;
-      border-bottom: 1px solid #ddd;
-      width: calc(100% / 4);
-    }
-
-    th {
-      font-size: 27px; 
-    }
-
-    td {
-      font-size: 26px; 
-    }
-
-    /* Ajustes para dispositivos móviles (sin cambios) */
-    @media screen and (max-width: 480px) {
-      .container {
-        padding: 10px;
-      }
-      form {
-        grid-template-columns: 1fr;
-      }
-      .time-input {
-        justify-content: center;
-      }
-      .time-separator {
-        margin: 0 5px;
-      }
-      input[type="number"],
-      input[type="text"],
-      input[type="submit"] {
-        font-size: 44px;
-        width: 100%;
-      }
-      label {
-        font-size: 43.2px;
-      }
-      #productionList {
-        font-size: 36px;
-      }
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <h1>Últimos 3 Registros Cargados</h1>
-    <table id="lastRecords">
-      <thead>
-        <tr>
-          <th>Inicio</th>
-          <th>Fin</th>
-          <th>Evento</th>
-          <th>Nº de Caja</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- Los últimos 3 registros se cargarán aquí con JavaScript -->
-      </tbody>
-    </table>
-
-    <h1>Cargar Datos de Producción</h1>
-    <form id="productionForm">
-      <div class="form-group">
-        <label for="startHour">Hora Inicio:</label>
-        <div class="time-input">
+      <h1>Cargar Datos de Producción</h1>
+      <form id="productionForm">
+        <div class="form-group">
+          <label for="startHour">Hora Inicio:</label>
+          <div class="time-input">
+            <input
+              type="number"
+              name="startHour"
+              id="startHour"
+              min="0"
+              max="23"
+              placeholder="Hora"
+              required
+            />
+            <span class="time-separator">:</span>
+            <input
+              type="number"
+              name="startMinute"
+              id="startMinute"
+              min="0"
+              max="59"
+              placeholder="Minuto"
+              required
+            />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="endHour">Hora Fin:</label>
+          <div class="time-input">
+            <input
+              type="number"
+              name="endHour"
+              id="endHour"
+              min="0"
+              max="23"
+              placeholder="Hora"
+              required
+            />
+            <span class="time-separator">:</span>
+            <input
+              type="number"
+              name="endMinute"
+              id="endMinute"
+              min="0"
+              max="59"
+              placeholder="Minuto"
+              required
+            />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="event">Evento:</label>
+          <input type="text" name="event" id="event" required />
+        </div>
+        <div class="form-group">
+          <label for="quantity">Contador:</label>
+          <input type="number" name="quantity" id="quantity" min="1" required />
+        </div>
+        <div class="form-group">
+          <label for="boxNumber">Nº de Caja:</label>
           <input
             type="number"
-            name="startHour"
-            id="startHour"
-            min="0"
-            max="23"
-            placeholder="Hora"
-            required
-          />
-          <span class="time-separator">:</span>
-          <input
-            type="number"
-            name="startMinute"
-            id="startMinute"
-            min="0"
-            max="59"
-            placeholder="Minuto"
+            name="boxNumber"
+            id="boxNumber"
+            min="1"
             required
           />
         </div>
-      </div>
-      <div class="form-group">
-        <label for="endHour">Hora Fin:</label>
-        <div class="time-input">
-          <input
-            type="number"
-            name="endHour"
-            id="endHour"
-            min="0"
-            max="23"
-            placeholder="Hora"
-            required
-          />
-          <span class="time-separator">:</span>
-          <input
-            type="number"
-            name="endMinute"
-            id="endMinute"
-            min="0"
-            max="59"
-            placeholder="Minuto"
-            required
-          />
+        <div class="form-group">
+          <label for="operator">Operario:</label>
+          <input type="text" name="operator" id="operator" required />
         </div>
-      </div>
-      <div class="form-group">
-        <label for="event">Evento:</label>
-        <input type="text" name="event" id="event" required />
-      </div>
-      <div class="form-group">
-        <label for="quantity">Contador:</label>
-        <input type="number" name="quantity" id="quantity" min="1" required />
-      </div>
-      <div class="form-group">
-        <label for="boxNumber">Nº de Caja:</label>
-        <input
-          type="number"
-          name="boxNumber"
-          id="boxNumber"
-          min="1"
-          required
-        />
-      </div>
-      <div class="form-group">
-        <label for="operator">Operario:</label>
-        <input type="text" name="operator" id="operator" required />
-      </div>
-      <div class="form-group">
-        <label for="article">Articulo:</label>
-        <input type="text" name="article" id="article" required />
-      </div>
-      <div class="form-group">
-        <label for="material">Material:</label>
-        <input type="text" name="material" id="material" required />
-      </div>
-      <div class="form-group">
-        <label for="color">Color:</label>
-        <input type="text" name="color" id="color" required />
-      </div>
-      <div class="form-group">
-        <label for="cycle">Ciclo:</label>
-        <input type="text" name="cycle" id="cycle" required />
-      </div>
-      <div class="form-group">
-        <label for="mouths">Bocas:</label>
-        <input type="text" name="mouths" id="mouths" required />
-      </div>
-      <div class="form-group">
-        <label for="observations">Observaciones:</label>
-        <input type="text" name="observations" id="observations" />
-      </div>
-      <input type="submit" value="Cargar" />
-    </form>
-    <div id="message"></div>
-  </div>
+        <div class="form-group">
+          <label for="article">Articulo:</label>
+          <input type="text" name="article" id="article" required />
+        </div>
+        <div class="form-group">
+          <label for="material">Material:</label>
+          <input type="text" name="material" id="material" required />
+        </div>
+        <div class="form-group">
+          <label for="color">Color:</label>
+          <input type="text" name="color" id="color" required />
+        </div>
+        <div class="form-group">
+          <label for="cycle">Ciclo:</label>
+          <input type="text" name="cycle" id="cycle" required />
+        </div>
+        <div class="form-group">
+          <label for="mouths">Bocas:</label>
+          <input type="text" name="mouths" id="mouths" required />
+        </div>
+        <div class="form-group">
+          <label for="observations">Observaciones:</label>
+          <textarea name="observations" id="observations" rows="1"></textarea>
+        </div>
+        <input type="submit" value="Cargar" />
+      </form>
+      <div id="message"></div>
+    </div>
 
     <script>
       const baseUrl = "https://guillermobell.pythonanywhere.com"; // Reemplaza con tu URL de PythonAnywhere
@@ -352,6 +192,13 @@
         }
 
         loadLastRecords();
+      });
+      const textarea = document.getElementById("observations");
+
+      textarea.addEventListener("input", () => {
+        // Ajustar la altura del textarea según el contenido
+        textarea.style.height = "auto";
+        textarea.style.height = `${textarea.scrollHeight}px`;
       });
     </script>
   </body>
