@@ -6,6 +6,7 @@
     
   -->
     <link rel="stylesheet" href="styles.css" />
+    
   </head>
   <body>
     <div class="container">
@@ -76,11 +77,19 @@
         </div>
         <div class="form-group">
           <label for="event">Evento:</label>
-          <input type="text" name="event" id="event" required />
+          <input
+            type="text"
+            name="event"
+            id="event"
+            pattern="[A-L]"
+            title="El evento debe ser una letra entre A y L"
+            oninput="this.value = this.value.toUpperCase()"
+            required
+          />
         </div>
         <div class="form-group">
           <label for="quantity">Contador:</label>
-          <input type="number" name="quantity" id="quantity" min="1" required />
+          <input type="number" name="quantity" id="quantity" min="0" required />
         </div>
         <div class="form-group">
           <label for="boxNumber">Nº de Caja:</label>
@@ -88,7 +97,7 @@
             type="number"
             name="boxNumber"
             id="boxNumber"
-            min="1"
+            min="0"
             required
           />
         </div>
@@ -102,15 +111,27 @@
         </div>
         <div class="form-group">
           <label for="material">Material:</label>
-          <input type="text" name="material" id="material" required />
+          <input type="text" name="material" id="material" 
+            pattern="^(PP|AI)?$"
+            title="El material debe ser 'PP' o 'AI', o dejarlo en blanco"
+            oninput="this.value = this.value.toUpperCase()" 
+          />
+          <div><br></div>
+          <p class="input-info">Ingresar PP, AI o dejar en blanco</p>
         </div>
         <div class="form-group">
           <label for="color">Color:</label>
-          <input type="text" name="color" id="color" required />
+          <input type="text" name="color" id="color" 
+            pattern="^(NEG|NAT|BCO|CRISTAL)?$"
+            title="El color debe ser 'NEG', 'NAT', 'BCO', 'CRISTAL', o dejarlo en blanco"
+            oninput="this.value = this.value.toUpperCase()"
+          />
+          <div><br></div>
+          <p class="input-info">Ingresar NEG, NAT, BCO, CRISTAL o dejar en blanco</p>
         </div>
         <div class="form-group">
           <label for="cycle">Ciclo:</label>
-          <input type="text" name="cycle" id="cycle" required />
+          <input type="number" name="cycle" id="cycle" min="0" required />
         </div>
         <div class="form-group">
           <label for="mouths">Bocas:</label>
@@ -166,23 +187,26 @@
             .then((response) => response.json())
             .then((data) => {
               lastRecords.innerHTML = "";
-              // Ordenar los registros por la hora de carga (timestamp) de forma descendente
+              // Ordenar los registros por la hora de carga (timestamp) de forma ascendente
               const sortedData = data.sort(
-                (a, b) => new Date(b.timestamp) - new Date(a.timestamp)
+                (a, b) => new Date(a.timestamp) - new Date(b.timestamp)
               );
               // Tomar solo los últimos 3 registros
-              const lastThreeRecords = sortedData.slice(0, 3);
-
+              const lastThreeRecords = sortedData.slice(-3);
+        
               lastThreeRecords.forEach((record) => {
                 const row = document.createElement("tr");
-                const inicio = record.startHour + ":" + record.startMinute;
-                const fin = record.endHour + ":" + record.endMinute;
+                
+                // Formatear las horas y minutos con dos dígitos
+                const inicio = formatTime(record.startHour, record.startMinute);
+                const fin = formatTime(record.endHour, record.endMinute);
+                
                 row.innerHTML = `
-                <td>${inicio}</td>
-                <td>${fin}</td>
-                <td>${record.event}</td>
-                <td>${record.boxNumber}</td>
-              `;
+                  <td>${inicio}</td>
+                  <td>${fin}</td>
+                  <td>${record.event}</td>
+                  <td>${record.boxNumber}</td>
+                `;
                 lastRecords.appendChild(row);
               });
             })
@@ -190,6 +214,14 @@
               console.error("Error al cargar los datos:", error)
             );
         }
+        
+        function formatTime(hours, minutes) {
+          // Agregar un "0" adelante si las horas o los minutos son de una sola cifra
+          const formattedHours = hours.toString().padStart(2, "0");
+          const formattedMinutes = minutes.toString().padStart(2, "0");
+          return `${formattedHours}:${formattedMinutes}`;
+        }
+        
 
         loadLastRecords();
       });

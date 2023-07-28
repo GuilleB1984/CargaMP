@@ -32,7 +32,7 @@ form {
 
 .form-group {
   display: grid;
-  gap: 15px;
+  gap: 0px 15px;
   align-items: center;
   grid-template-columns: 1fr 0.7fr; /* Dos columnas para cada rótulo y campo con reducción del 30% */
   text-align: right; /* Alineamos el texto a la derecha */
@@ -138,6 +138,14 @@ textarea {
   width: 95%;
   resize: vertical; /* Permite ajustar verticalmente la altura del textarea */
   margin: 0; /* Alineamos el textarea a la izquierda */
+}
+
+/* Estilos para los mensajes alineados a la derecha y en letra chica */
+.input-info {
+  font-size: 12px;
+  text-align: right;
+  margin-block-start: 0.1em;
+margin-block-end: 0.1em;
 }
 
 /* Ajustes para dispositivos móviles (sin cambios) */
