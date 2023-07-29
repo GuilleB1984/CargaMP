@@ -3,7 +3,7 @@ body {
   margin: 0;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   min-height: 100vh;
   background-color: #f0f0f0;
 }
@@ -16,13 +16,14 @@ body {
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   overflow-x: auto;
+  width: 95%; /* Ajuste para que el contenedor ocupe el 95% del ancho */
 }
 
 h1 {
   text-align: center;
   margin-bottom: 20px;
   color: #333;
-  font-size: 48px;
+  font-size: 60px; /* Todas las letras son un 25% más grandes */
 }
 
 form {
@@ -34,14 +35,14 @@ form {
   display: grid;
   gap: 0px 15px;
   align-items: center;
-  grid-template-columns: 1fr 0.7fr; /* Dos columnas para cada rótulo y campo con reducción del 30% */
+  grid-template-columns: 1fr 0.8fr; /* Dos columnas para cada rótulo y campo con reducción del 30% */
   text-align: right; /* Alineamos el texto a la derecha */
 }
 
 label {
   font-weight: bold;
   color: #555;
-  font-size: 46px;
+  font-size: 57.6px; /* Todas las letras son un 25% más grandes */
   display: block;
 }
 
@@ -55,7 +56,7 @@ label {
   padding: 8px;
   border: 2px solid #555; /* Borde más oscuro */
   border-radius: 5px;
-  font-size: 36px;
+  font-size: 45px; /* Todas las letras son un 25% más grandes */
   width: 70%; /* Reducción del 30% en el ancho */
   text-align: center;
   margin: 0; /* Alineamos el input a la izquierda */
@@ -63,7 +64,7 @@ label {
 
 .time-separator {
   margin: 0 10px;
-  font-size: 48px;
+  font-size: 60px; /* Todas las letras son un 25% más grandes */
 }
 
 input[type="number"],
@@ -71,7 +72,7 @@ input[type="text"] {
   padding: 8px;
   border: 2px solid #555; /* Borde más oscuro */
   border-radius: 5px;
-  font-size: 36px;
+  font-size: 45px; /* Todas las letras son un 25% más grandes */
   width: 95%;
   text-align: center; /* Alineamos el texto a la izquierda */
   margin: 0; /* Alineamos el input a la izquierda */
@@ -87,7 +88,7 @@ input[type="submit"] {
   border: none;
   padding: 10px 20px;
   border-radius: 5px;
-  font-size: 44px;
+  font-size: 55.2px; /* Todas las letras son un 25% más grandes */
   cursor: pointer;
   transition: background-color 0.3s;
   margin: 0 auto; /* Centramos el botón horizontalmente */
@@ -100,7 +101,7 @@ input[type="submit"]:hover {
 
 #productionList {
   margin-top: 20px;
-  font-size: 28.8px; /* 36px - 20% */
+  font-size: 36.0px; /* 45px - 20% */
 }
 
 table {
@@ -120,21 +121,22 @@ td {
   text-align: center;
   border-bottom: 1px solid #ddd;
   width: calc(100% / 4);
+  border: 1px dotted #aaa; /* Borde punteado en las celdas */
 }
 
 th {
-  font-size: 30px;
+  font-size: 37.5px; /* Todas las letras son un 25% más grandes */
 }
 
 td {
-  font-size: 29px;
+  font-size: 36.0px; /* Todas las letras son un 25% más grandes */
 }
 
 textarea {
   padding: 8px;
   border: 2px solid #555; /* Borde más oscuro */
   border-radius: 5px;
-  font-size: 36px;
+  font-size: 45px; /* Todas las letras son un 25% más grandes */
   width: 95%;
   resize: vertical; /* Permite ajustar verticalmente la altura del textarea */
   margin: 0; /* Alineamos el textarea a la izquierda */
@@ -145,10 +147,10 @@ textarea {
   font-size: 12px;
   text-align: right;
   margin-block-start: 0.1em;
-margin-block-end: 0.1em;
+  margin-block-end: 0.1em;
 }
 
-/* Ajustes para dispositivos móviles (sin cambios) */
+/* Ajustes para dispositivos móviles (sin cambios) 
 @media screen and (max-width: 480px) {
   .container {
     padding: 10px;
@@ -174,4 +176,4 @@ margin-block-end: 0.1em;
   #productionList {
     font-size: 36px;
   }
-}
+}*/
