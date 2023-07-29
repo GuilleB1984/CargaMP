@@ -12,7 +12,7 @@ body {
   max-width: 800px;
   margin: 0 auto;
   background-color: #fff;
-  padding: 20px;
+  padding: 10px;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   overflow-x: auto;
@@ -21,7 +21,8 @@ body {
 
 h1 {
   text-align: center;
-  margin-bottom: 20px;
+  margin: 20px;
+  margin-bottom: 25px;
   color: #333;
   font-size: 60px; /* Todas las letras son un 25% más grandes */
 }
@@ -35,8 +36,9 @@ form {
   display: grid;
   gap: 0px 15px;
   align-items: center;
-  grid-template-columns: 1fr 0.8fr; /* Dos columnas para cada rótulo y campo con reducción del 30% */
+  grid-template-columns: 1fr 0.9fr; 
   text-align: right; /* Alineamos el texto a la derecha */
+  margin: 3px;
 }
 
 label {
@@ -144,7 +146,7 @@ textarea {
 
 /* Estilos para los mensajes alineados a la derecha y en letra chica */
 .input-info {
-  font-size: 14px;
+  font-size: 15px;
   text-align: right;
   margin-block-start: 0.1em;
   margin-block-end: 0.1em;
