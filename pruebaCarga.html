@@ -1,14 +1,200 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Carga de Producción</title>
-    <!--
-    
-  -->
+    <title>Carga de Producción</title> 
     <link rel="stylesheet" href="styles.css" />
+    <!--
+   
+  -->
+
+    
+
+  <!--
     <style>
-      
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        min-height: 100vh;
+        background-color: #f0f0f0;
+      }
+
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        background-color: #fff;
+        padding: 10px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        overflow-x: auto;
+        width: 95%; /* Ajuste para que el contenedor ocupe el 95% del ancho */
+      }
+
+      h1 {
+        text-align: center;
+        margin: 20px;
+        margin-bottom: 25px;
+        color: #333;
+        font-size: 60px; /* Todas las letras son un 25% más grandes */
+      }
+
+      form {
+        display: grid;
+        gap: 10px;
+      }
+
+      .form-group {
+        display: grid;
+        gap: 0px 15px;
+        align-items: center;
+        grid-template-columns: 1fr 0.9fr;
+        text-align: right; /* Alineamos el texto a la derecha */
+        margin: 3px;
+      }
+
+      label {
+        font-weight: bold;
+        color: #555;
+        font-size: 57.6px; /* Todas las letras son un 25% más grandes */
+        display: block;
+      }
+
+      .time-input {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .time-input input {
+        padding: 8px;
+        border: 2px solid #555; /* Borde más oscuro */
+        border-radius: 5px;
+        font-size: 45px; /* Todas las letras son un 25% más grandes */
+        width: 70%; /* Reducción del 30% en el ancho */
+        text-align: center;
+        margin: 0; /* Alineamos el input a la izquierda */
+      }
+
+      .time-separator {
+        margin: 0 10px;
+        font-size: 60px; /* Todas las letras son un 25% más grandes */
+      }
+
+      input[type="number"],
+      input[type="text"] {
+        padding: 8px;
+        border: 2px solid #555; /* Borde más oscuro */
+        border-radius: 5px;
+        font-size: 45px; /* Todas las letras son un 25% más grandes */
+        width: 95%;
+        text-align: center; /* Alineamos el texto a la izquierda */
+        margin: 0; /* Alineamos el input a la izquierda */
+      }
+
+      input[type="hidden"] {
+        display: none;
+      }
+
+      input[type="submit"] {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        font-size: 55.2px; /* Todas las letras son un 25% más grandes */
+        cursor: pointer;
+        transition: background-color 0.3s;
+        margin: 0 auto; /* Centramos el botón horizontalmente */
+        display: block;
+      }
+
+      input[type="submit"]:hover {
+        background-color: #0056b3;
+      }
+
+      #productionList {
+        margin-top: 20px;
+        font-size: 36px; /* 45px - 20% */
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+
+      thead {
+        background-color: #007bff;
+        color: #fff;
+      }
+
+      th,
+      td {
+        padding: 10px;
+        text-align: center;
+        border-bottom: 1px solid #ddd;
+        width: calc(100% / 4);
+        border: 1px dotted #aaa; /* Borde punteado en las celdas */
+      }
+
+      th {
+        font-size: 37.5px; /* Todas las letras son un 25% más grandes */
+      }
+
+      td {
+        font-size: 36px; /* Todas las letras son un 25% más grandes */
+      }
+
+      textarea {
+        padding: 8px;
+        border: 2px solid #555; /* Borde más oscuro */
+        border-radius: 5px;
+        font-size: 45px; /* Todas las letras son un 25% más grandes */
+        width: 95%;
+        resize: vertical; /* Permite ajustar verticalmente la altura del textarea */
+        margin: 0; /* Alineamos el textarea a la izquierda */
+      }
+
+      /* Estilos para los mensajes alineados a la derecha y en letra chica */
+      .input-info {
+        font-size: 15px;
+        text-align: right;
+        margin-block-start: 0.1em;
+        margin-block-end: 0.1em;
+      }
+
+      /* Ajustes para dispositivos móviles (sin cambios) 
+      @media screen and (max-width: 480px) {
+        .container {
+          padding: 10px;
+        }
+        form {
+          grid-template-columns: 1fr;
+        }
+        .time-input {
+          justify-content: center;
+        }
+        .time-separator {
+          margin: 0 5px;
+        }
+        input[type="number"],
+        input[type="text"],
+        input[type="submit"] {
+          font-size: 44px;
+          width: 100%;
+        }
+        label {
+          font-size: 43.2px;
+        }
+        #productionList {
+          font-size: 36px;
+        }
+      }*/
     </style>
+  -->
+
   </head>
   <body>
     <div class="container">
@@ -16,10 +202,10 @@
       <table id="lastRecords">
         <thead>
           <tr>
-            <th style="width: 20%;">Inicio</th>
-    <th style="width: 20%;">Fin</th>
-    <th style="width: 20%;">Evento</th>
-    <th style="width: 30%;">Nº de Caja</th>
+            <th style="width: 20%">Inicio</th>
+            <th style="width: 20%">Fin</th>
+            <th style="width: 20%">Evento</th>
+            <th style="width: 30%">Nº de Caja</th>
           </tr>
         </thead>
         <tbody>
@@ -29,6 +215,20 @@
 
       <h1>Control de Producción</h1>
       <form id="productionForm">
+        <div class="form-group">
+          <label for="machineNumber">Máquina:</label>
+
+          <select name="machineNumber" id="machineNumber" required>
+            <option value="" disabled selected>Seleccionar Máquina</option>
+            <option value="1">Máquina 1</option>
+            <option value="2">Máquina 2</option>
+            <option value="3">Máquina 3</option>
+            <option value="4">Máquina 4</option>
+            <option value="5">Máquina 5</option>
+            <option value="6">Máquina 6</option>
+            <option value="7">Máquina 7</option>
+          </select>
+        </div>
         <div class="form-group">
           <label for="startHour">Hora Inicio:</label>
           <div class="time-input">
@@ -113,23 +313,31 @@
         </div>
         <div class="form-group">
           <label for="material">Material:</label>
-          <input type="text" name="material" id="material" 
+          <input
+            type="text"
+            name="material"
+            id="material"
             pattern="^(PP|AI)?$"
             title="El material debe ser 'PP' o 'AI', o dejarlo en blanco"
-            oninput="this.value = this.value.toUpperCase()" 
+            oninput="this.value = this.value.toUpperCase()"
           />
-          <div><br></div>
+          <div><br /></div>
           <p class="input-info">Ingresar PP, AI o dejar en blanco</p>
         </div>
         <div class="form-group">
           <label for="color">Color:</label>
-          <input type="text" name="color" id="color" 
+          <input
+            type="text"
+            name="color"
+            id="color"
             pattern="^(NEG|NAT|BCO|CRISTAL)?$"
             title="El color debe ser 'NEG', 'NAT', 'BCO', 'CRISTAL', o dejarlo en blanco"
             oninput="this.value = this.value.toUpperCase()"
           />
-          <div><br></div>
-          <p class="input-info">Ingresar NEG, NAT, BCO, CRISTAL o dejar en blanco</p>
+          <div><br /></div>
+          <p class="input-info">
+            Ingresar NEG, NAT, BCO, CRISTAL o dejar en blanco
+          </p>
         </div>
         <div class="form-group">
           <label for="cycle">Ciclo:</label>
@@ -195,14 +403,14 @@
               );
               // Tomar solo los últimos 3 registros
               const lastThreeRecords = sortedData.slice(-3);
-        
+
               lastThreeRecords.forEach((record) => {
                 const row = document.createElement("tr");
-                
+
                 // Formatear las horas y minutos con dos dígitos
                 const inicio = formatTime(record.startHour, record.startMinute);
                 const fin = formatTime(record.endHour, record.endMinute);
-                
+
                 row.innerHTML = `
                 <td style="width: 20%;">${inicio}</td>
                 <td style="width: 20%;">${fin}</td>
@@ -216,14 +424,13 @@
               console.error("Error al cargar los datos:", error)
             );
         }
-        
+
         function formatTime(hours, minutes) {
           // Agregar un "0" adelante si las horas o los minutos son de una sola cifra
           const formattedHours = hours.toString().padStart(2, "0");
           const formattedMinutes = minutes.toString().padStart(2, "0");
           return `${formattedHours}:${formattedMinutes}`;
         }
-        
 
         loadLastRecords();
       });

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Descarga Automática de Excel</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+</head>
+<body>
+    <script>
+        function downloadExcel() {
+            fetch('https://guillermobell.pythonanywhere.com/get_data')
+                .then(response => response.json())
+                .then(data => {
+                    // Crear una hoja de trabajo de Excel
+                    const worksheet = XLSX.utils.json_to_sheet(data);
+
+                    // Crear el libro de trabajo y agregar la hoja de trabajo
+                    const workbook = XLSX.utils.book_new();
+                    XLSX.utils.book_append_sheet(workbook, worksheet, 'Datos');
+
+                    // Generar un Blob para el archivo Excel
+                    const excelBlob = new Blob([s2ab(XLSX.write(workbook, { type: 'binary' }))], {
+                        type: 'application/octet-stream'
+                    });
+
+                    // Crear un enlace de descarga y disparar la descarga del archivo Excel
+                    const downloadLink = document.createElement('a');
+                    downloadLink.href = URL.createObjectURL(excelBlob);
+                    downloadLink.download = 'datos.xlsx';
+                    document.body.appendChild(downloadLink);
+                    downloadLink.click();
+                })
+                .catch(error => console.error(error));
+        }
+
+        // Función para convertir una cadena en un ArrayBuffer
+        function s2ab(s) {
+            const buf = new ArrayBuffer(s.length);
+            const view = new Uint8Array(buf);
+            for (let i = 0; i < s.length; i++) {
+                view[i] = s.charCodeAt(i) & 0xFF;
+            }
+            return buf;
+        }
+
+        
+        setInterval(downloadExcel, 4 * 60 * 60 * 1000); // hace una descarga automatica cada 4 horas
+    </script>
+</body>
+</html>

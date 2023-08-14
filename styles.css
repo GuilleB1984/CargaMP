@@ -41,9 +41,24 @@ form {
   margin: 3px;
 }
 
+.form-group select {
+  padding: 17px;
+  height: 100%;
+  border: 2px solid #555;
+  border-radius: 5px;
+  font-size: 30px;
+  width: 100%;
+  text-align: center;
+  margin: 0;
+}
+
+.form-group select:placeholder-shown {
+  font-size: 30px; /* Tamaño de fuente más pequeño cuando no se ha seleccionado una opción */
+}
+
 label {
   font-weight: bold;
-  color: #555;
+  color: fieldtext;
   font-size: 57.6px; /* Todas las letras son un 25% más grandes */
   display: block;
 }
@@ -70,7 +85,7 @@ label {
 }
 
 input[type="number"],
-input[type="text"] {
+input[type="text"]{
   padding: 8px;
   border: 2px solid #555; /* Borde más oscuro */
   border-radius: 5px;
