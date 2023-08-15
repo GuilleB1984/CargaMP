@@ -279,15 +279,22 @@
         </div>
         <div class="form-group">
           <label for="event">Evento:</label>
-          <input
-            type="text"
-            name="event"
-            id="event"
-            pattern="[A-L]"
-            title="El evento debe ser una letra entre A y L"
-            oninput="this.value = this.value.toUpperCase()"
-            required
-          />
+          <select name="event" id="event" required>
+            <option value="" disabled selected>Seleccionar Evento</option>
+            <option value="A">A - Produccion</option>
+            <option value="B">B - F. de Personal</option>
+            <option value="C">C - C. de Molde</option>
+            <option value="D">D - C. de Color/MP</option>
+            <option value="E">E - Puesta a Punto</option>
+            <option value="F">F - Mantenimiento</option>
+            <option value="G">G - Prob. de Proceso</option>
+            <option value="H">H - Prob. de Calidad</option>
+            <option value="I">I - Pico Tapado</option>
+            <option value="J">J - Falta de MP</option>
+            <option value="K">K - Otras Paradas</option>
+            <option value="L">L - Espera</option>
+          </select>
+          
         </div>
         <div class="form-group">
           <label for="quantity">Contador:</label>
@@ -313,31 +320,29 @@
         </div>
         <div class="form-group">
           <label for="material">Material:</label>
-          <input
-            type="text"
-            name="material"
-            id="material"
-            pattern="^(PP|AI)?$"
-            title="El material debe ser 'PP' o 'AI', o dejarlo en blanco"
-            oninput="this.value = this.value.toUpperCase()"
-          />
-          <div><br /></div>
-          <p class="input-info">Ingresar PP, AI o dejar en blanco</p>
+          <select name="material" id="material" required>
+            <option value="" disabled selected>Seleccionar Material</option>
+            <option value="PP">PP</option>
+            <option value="AI">AI</option>
+            <option value="-">-</option>
+            
+          </select>
+          
+          
+          
         </div>
         <div class="form-group">
           <label for="color">Color:</label>
-          <input
-            type="text"
-            name="color"
-            id="color"
-            pattern="^(NEG|NAT|BCO|CRISTAL)?$"
-            title="El color debe ser 'NEG', 'NAT', 'BCO', 'CRISTAL', o dejarlo en blanco"
-            oninput="this.value = this.value.toUpperCase()"
-          />
-          <div><br /></div>
-          <p class="input-info">
-            Ingresar NEG, NAT, BCO, CRISTAL o dejar en blanco
-          </p>
+          <select name="color" id="color" required>
+            <option value="" disabled selected>Seleccionar Color</option>
+            <option value="NEGRO">NEGRO</option>
+            <option value="NATURAL">NATURAL</option>
+            <option value="CRISTAL">CRISTAL</option>
+            <option value="BLANCO">BLANCO</option>
+            <option value="-">-</option>
+            
+          </select>
+          
         </div>
         <div class="form-group">
           <label for="cycle">Ciclo:</label>
@@ -359,38 +364,54 @@
     <script>
       const baseUrl = "https://guillermobell.pythonanywhere.com"; // Reemplaza con tu URL de PythonAnywhere
 
-      document.addEventListener("DOMContentLoaded", () => {
-        const form = document.getElementById("productionForm");
-        const messageDiv = document.getElementById("message");
-        const lastRecords = document
-          .getElementById("lastRecords")
-          .getElementsByTagName("tbody")[0];
+  document.addEventListener("DOMContentLoaded", () => {
+    const form = document.getElementById("productionForm");
+    const messageDiv = document.getElementById("message");
+    const lastRecords = document
+      .getElementById("lastRecords")
+      .getElementsByTagName("tbody")[0];
 
-        form.addEventListener("submit", (event) => {
-          event.preventDefault();
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
 
-          const formData = new FormData(form);
-          const data = {};
-          formData.forEach((value, key) => {
-            data[key] = value;
-          });
+      const formData = new FormData(form);
+      const data = {};
+      formData.forEach((value, key) => {
+        data[key] = value;
+      });
 
-          fetch(`${baseUrl}/add_data`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(data),
-          })
-            .then((response) => response.json())
-            .then((data) => {
-              messageDiv.textContent = data.message;
-              form.reset();
-              loadLastRecords();
-            })
-            .catch((error) => {
-              messageDiv.textContent = "Error al cargar los datos.";
-              console.error("Error al cargar los datos:", error);
-            });
+      fetch(`${baseUrl}/add_data`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          messageDiv.textContent = data.message;
+          messageDiv.style.backgroundColor = "#28a745"; // Cambiar a verde para éxito
+          messageDiv.style.color = "#fff"; // Cambiar el color del texto a blanco
+          messageDiv.style.border = "2px solid"; // Agregar un borde al mensaje
+          messageDiv.style.fontSize = "18px"; // Cambiar el tamaño de fuente
+          messageDiv.style.marginTop = "20px"; // Agregar margen superior
+          messageDiv.style.padding = "10px"; // Agregar espaciado interno al mensaje
+          messageDiv.style.transition =
+            "background-color 0.3s, color 0.3s, font-size 0.3s"; // Agregar transiciones para los cambios de estilo
+          form.reset();
+          loadLastRecords();
+        })
+        .catch((error) => {
+          messageDiv.textContent = "Error al cargar los datos.";
+          messageDiv.style.backgroundColor = "#dc3545"; // Cambiar a rojo para error
+          messageDiv.style.color = "#fff"; // Cambiar el color del texto a blanco
+          messageDiv.style.border = "2px solid"; // Agregar un borde al mensaje
+          messageDiv.style.fontSize = "18px"; // Cambiar el tamaño de fuente
+          messageDiv.style.marginTop = "20px"; // Agregar margen superior
+          messageDiv.style.padding = "10px"; // Agregar espaciado interno al mensaje
+          messageDiv.style.transition =
+            "background-color 0.3s, color 0.3s, font-size 0.3s"; // Agregar transiciones para los cambios de estilo
+          console.error("Error al cargar los datos:", error);
         });
+    });
 
         function loadLastRecords() {
           fetch(`${baseUrl}/get_data`)
